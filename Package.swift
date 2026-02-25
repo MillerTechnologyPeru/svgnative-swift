@@ -11,12 +11,15 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "svgnative",
-            targets: ["CSVGNative", "boost", "cpp-base64"]),
+            name: "SVGNative",
+            targets: ["SVGNative"]
+        ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "SVGNative",
+            dependencies: ["CSVGNative"]
+        ),
         .target(
             name: "CSVGNative",
             dependencies: ["boost", "cpp-base64"],
@@ -55,6 +58,10 @@ let package = Package(
           path: "third_party",
           sources: ["cpp-base64/base64.h", "cpp-base64/base64.cpp"],
           publicHeadersPath: "cpp-base64"
+        ),
+        .testTarget(
+            name: "SVGNativeTests",
+            dependencies: ["SVGNative"]
         )
     ],
     cLanguageStandard: .gnu11,
