@@ -1,0 +1,4 @@
+[submodule "svg-native-viewer"]
+	path = svg-native-viewer
+	url = https://github.com/adobe/svg-native-viewer.git
+	branch = main
