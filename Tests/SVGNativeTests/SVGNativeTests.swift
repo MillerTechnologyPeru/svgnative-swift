@@ -9,7 +9,7 @@ import Testing
     </svg>
     """
     
-    let svgData = #require(SVGData(svgWithSize))
+    let svgData = try #require(SVGData(svgWithSize))
     
     let size = svgData.intrinsicSize
     #expect(size != nil)
