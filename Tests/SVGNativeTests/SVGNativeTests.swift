@@ -9,7 +9,10 @@ import Testing
     </svg>
     """
     
-    let svgData = try #require(SVGData(svgWithSize))
+    guard let svgData = SVGNative(svgWithSize) else {
+        Issue.record()
+        return
+    }
     
     let size = svgData.intrinsicSize
     #expect(size != nil)
