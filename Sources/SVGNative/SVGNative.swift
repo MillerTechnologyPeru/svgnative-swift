@@ -6,6 +6,9 @@
 //
 
 internal import CSVGNative
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 public struct SVGNative: ~Copyable {
     
@@ -36,4 +39,10 @@ public struct SVGNative: ~Copyable {
     public func render() {
         svg_native_render(handle)
     }
+    
+    #if canImport(CoreGraphics)
+    public func setRenderer(_ context: CGContext) {
+        svg_native_set_renderer(handle, Unmanaged.passUnretained(context).toOpaque())
+    }
+    #endif
 }
