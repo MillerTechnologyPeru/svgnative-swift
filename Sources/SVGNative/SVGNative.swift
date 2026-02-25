@@ -36,8 +36,12 @@ public struct SVGNative: ~Copyable {
         return (width, height)
     }
     
-    public func render() {
-        svg_native_render(handle)
+    public func render(_ size: (width: Float, height: Float)? = nil) {
+        if let size {
+            svg_native_render_size(handle, size.width, size.height)
+        } else {
+            svg_native_render(handle)
+        }
     }
     
     #if canImport(CoreGraphics)
