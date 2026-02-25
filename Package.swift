@@ -39,16 +39,22 @@ let package = Package(
                       "svgnative/include/svgnative/ports/skia",
                       "svgnative/include/svgnative/ports/string"],
             sources: ["svgnative/src"],
-            publicHeadersPath: "svgnative/include",
+            publicHeadersPath: "include/CSVGNative",
             cSettings: [.define("USE_CG", to: "1"),
                         .define("BOOST_VARIANT_DETAIL_NO_SUBSTITUTE", to: "1"),
-                        .headerSearchPath("svgnative/src")]
+                        .headerSearchPath("svgnative/src"),
+                        .headerSearchPath("svgnative/include")],
+            linkerSettings: [
+                .linkedFramework("CoreGraphics"),
+                .linkedFramework("CoreFoundation"),
+                .linkedLibrary("xml2")
+            ]
         ),
         .target(
           name: "boost",
           dependencies: [],
           path: "third_party",
-          sources: ["boost_variant_property_tree", "dummy.cpp"],
+          sources: ["dummy.cpp"],
           publicHeadersPath: "boost_variant_property_tree",
           cSettings: [.define("BOOST_VARIANT_DETAIL_NO_SUBSTITUTE", to: "1")]
         ),
