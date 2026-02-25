@@ -5,32 +5,35 @@
 //  Created by Alsey Coleman Miller on 2/24/26.
 //
 
-import CSVGNative
+internal import CSVGNative
 
 public struct SVGNative: ~Copyable {
     
-    internal let handle: svg_native_t
+    internal let handle: OpaquePointer
     
-    init(
-        document: String,
-        renderer: svg_native_renderer_type_t = SVG_RENDERER_UNKNOWN
-    ) {
-        self.handle = svg_native_create(renderer, document)
+    public init?(_ document: String) {
+        let rendererType: svg_native_renderer_type_t
+        #if canImport(CoreGraphics)
+        rendererType = SVG_RENDERER_CG
+        #endif
+        guard let handle = svg_native_create(rendererType, document) else {
+            return nil
+        }
+        self.handle = handle
     }
     
     deinit {
         svg_native_destroy(handle)
     }
     
-    var width: Float? {
-        svg_native_canvas_width(handle)
+    public var intrinsicSize: (width: Float, height: Float)? {
+        let width = svg_native_canvas_width(handle)
+        let height = svg_native_canvas_height(handle)
+        guard !width.isNaN, !height.isNaN else { return nil }
+        return (width, height)
     }
     
-    var height: Float? {
-        svg_native_canvas_height(handle)
-    }
-    
-    func render() {
+    public func render() {
         svg_native_render(handle)
     }
 }
